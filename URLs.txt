@@ -15,3 +15,6 @@ http://localhost:8080/hibernate-demo/computer?action=update&id=1&name=SuperKompj
 http://localhost:8080/hibernate-demo/computer?action=delete&id=3
 
 Cwiczenie 5:
+http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02&cid=1
+http://localhost:8080/hibernate-demo/computer?action=add&name=SuperKompjuterElonaMuska&os=TESOXXX
+http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02&cid=3
