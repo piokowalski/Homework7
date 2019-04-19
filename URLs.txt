@@ -3,3 +3,7 @@ http://localhost:8080/hibernate-demo/student?action=findAll
 http://localhost:8080/hibernate-demo/student?action=update&id=1&name=Pawel%20Karol
 http://localhost:8080/hibernate-demo/student?action=add&name=Agnieszka
 http://localhost:8080/hibernate-demo/student?action=delete&id=3
+
+Cwiczenie 3:
+http://localhost:8080/hibernate-demo/student?action=findAll
+http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02
