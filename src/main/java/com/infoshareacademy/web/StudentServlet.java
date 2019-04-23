@@ -7,6 +7,7 @@ import com.infoshareacademy.dao.StudentDao;
 import com.infoshareacademy.model.Address;
 import com.infoshareacademy.model.Computer;
 import com.infoshareacademy.model.Course;
+import com.infoshareacademy.model.CourseSummary;
 import com.infoshareacademy.model.Student;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -113,6 +114,8 @@ public class StudentServlet extends HttpServlet {
             updateStudent(req, resp);
         } else if (action.equals("bornAfter")) {
             findAllBornAfter(req, resp);
+        } else if (action.equals("summary")) {
+            summary(req, resp);
         } else {
             resp.getWriter().write("Unknown action.");
         }
@@ -206,10 +209,19 @@ public class StudentServlet extends HttpServlet {
             resp.getWriter().write(p.toString() + "\n");
         }
     }
+
     private void findAll(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final List<Student> result = studentDao.findAll();
         LOG.info("Found {} objects", result.size());
         for (Student p : result) {
+            resp.getWriter().write(p.toString() + "\n");
+        }
+    }
+
+    private void summary(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        final List<CourseSummary> result = courseDao.getCoursesSummary();
+        LOG.info("Found {} objects", result.size());
+        for (CourseSummary p : result) {
             resp.getWriter().write(p.toString() + "\n");
         }
     }
