@@ -23,3 +23,10 @@ Cwiczenie 6 (I):
 http://localhost:8080/hibernate-demo/address?action=findAll
 http://localhost:8080/hibernate-demo/address?action=add&street=Kolobrzeska 14&city=Gdansk
 http://localhost:8080/hibernate-demo/address?action=delete&id=1
+
+Cwiczenie 6 (II):
+http://localhost:8080/hibernate-demo/student?action=findAll
+http://localhost:8080/hibernate-demo/address?action=add&street=Kolobrzeska%2014&city=Gdansk
+http://localhost:8080/hibernate-demo/computer?action=add&name=SuperKompjuterElonaMuska&os=TESOXXX
+http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02&cid=3&aid=3
+
