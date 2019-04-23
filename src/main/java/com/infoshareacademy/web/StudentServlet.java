@@ -11,6 +11,7 @@ import com.infoshareacademy.model.Student;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletConfig;
@@ -76,14 +77,16 @@ public class StudentServlet extends HttpServlet {
             "Graczyk",
             LocalDate.of(1980, 11, 12),
             c1,
-            a1);
+            a1,
+            Arrays.asList(course1, course2, course3));
         studentDao.save(s1);
 
         Student s2 = new Student("Marek",
             "Malinovsky",
             LocalDate.of(1960, 5, 13),
             c2,
-            a1);
+            a1,
+            Arrays.asList(course2, course3));
         studentDao.save(s2);
 
         LOG.info("System time zone is: {}", ZoneId.systemDefault());
