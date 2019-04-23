@@ -48,14 +48,14 @@ public class StudentServlet extends HttpServlet {
         // Test data
 
         // Courses
-        Course c1 = new Course("JJDD6");
-        courseDao.save(c1);
+        Course course1 = new Course("JJDD6");
+        courseDao.save(course1);
 
-        Course c2 = new Course("JJDZ6");
-        courseDao.save(c2);
+        Course course2 = new Course("JJDZ6");
+        courseDao.save(course2);
 
-        Course c3 = new Course("JJFD9");
-        courseDao.save(c3);
+        Course course3 = new Course("JJFD9");
+        courseDao.save(course3);
 
         // Addresses
         Address a1 = new Address("Grunwaldzka 472B", "Gdansk");
