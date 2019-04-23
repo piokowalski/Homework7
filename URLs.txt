@@ -18,3 +18,8 @@ Cwiczenie 5:
 http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02&cid=1
 http://localhost:8080/hibernate-demo/computer?action=add&name=SuperKompjuterElonaMuska&os=TESOXXX
 http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02&cid=3
+
+Cwiczenie 6 (I):
+http://localhost:8080/hibernate-demo/address?action=findAll
+http://localhost:8080/hibernate-demo/address?action=add&street=Kolobrzeska 14&city=Gdansk
+http://localhost:8080/hibernate-demo/address?action=delete&id=1

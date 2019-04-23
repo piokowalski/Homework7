@@ -58,13 +58,15 @@ public class StudentServlet extends HttpServlet {
         Student s1 = new Student("Michal",
             "Graczyk",
             LocalDate.of(1980, 11, 12),
-            c1);
+            c1,
+            a1);
         studentDao.save(s1);
 
         Student s2 = new Student("Marek",
             "Malinovsky",
             LocalDate.of(1960, 5, 13),
-            c2);
+            c2,
+            a1);
         studentDao.save(s2);
 
         LOG.info("System time zone is: {}", ZoneId.systemDefault());
