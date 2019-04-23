@@ -117,6 +117,11 @@ public class StudentServlet extends HttpServlet {
             Computer computer = computerDao.findById(cid); // != null
             existingStudent.setComputer(computer);
 
+            String aidStr = req.getParameter("aid"); // address od
+            Long aid = Long.valueOf(aidStr);
+            Address address = addressDao.findById(aid);
+            existingStudent.setAddress(address);
+
             studentDao.update(existingStudent);
             LOG.info("Student object updated: {}", existingStudent);
         }
@@ -137,6 +142,11 @@ public class StudentServlet extends HttpServlet {
         Long cid = Long.valueOf(cidStr);
         Computer computer = computerDao.findById(cid); // != null
         p.setComputer(computer);
+
+        String aidStr = req.getParameter("aid"); // address od
+        Long aid = Long.valueOf(aidStr);
+        Address address = addressDao.findById(aid);
+        p.setAddress(address);
 
         studentDao.save(p);
         LOG.info("Saved a new Student object: {}", p);

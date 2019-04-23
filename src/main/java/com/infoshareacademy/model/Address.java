@@ -1,5 +1,7 @@
 package com.infoshareacademy.model;
 
+import static java.util.stream.Collectors.joining;
+
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -77,7 +79,10 @@ public class Address {
         sb.append("id=").append(id);
         sb.append(", street='").append(street).append('\'');
         sb.append(", city='").append(city).append('\'');
-        sb.append(", students=").append(students);
+        sb.append(", students=").append(students
+            .stream()
+            .map(s -> s.getId().toString())
+            .collect(joining(", ")));
         sb.append('}');
         return sb.toString();
     }
