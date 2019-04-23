@@ -30,3 +30,9 @@ http://localhost:8080/hibernate-demo/address?action=add&street=Kolobrzeska%2014&
 http://localhost:8080/hibernate-demo/computer?action=add&name=SuperKompjuterElonaMuska&os=TESOXXX
 http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02&cid=3&aid=3
 
+Cwiczenie 8:
+http://localhost:8080/hibernate-demo/student?action=findAll
+http://localhost:8080/hibernate-demo/computer?action=add&name=SuperKompjuterElonaMuska&os=TESOXXX
+http://localhost:8080/hibernate-demo/course?action=add&name=JJDD7
+http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02&cid=3&aid=1&courseName=JJDD7
+http://localhost:8080/hibernate-demo/student?action=update&id=3&name=Wojtek&surname=Kupag&date=1961-01-02&cid=3&aid=1&courseName=JJFD9
