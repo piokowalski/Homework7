@@ -36,3 +36,7 @@ http://localhost:8080/hibernate-demo/computer?action=add&name=SuperKompjuterElon
 http://localhost:8080/hibernate-demo/course?action=add&name=JJDD7
 http://localhost:8080/hibernate-demo/student?action=add&name=Wojtek&surname=Kupag&date=1961-01-02&cid=3&aid=1&courseName=JJDD7
 http://localhost:8080/hibernate-demo/student?action=update&id=3&name=Wojtek&surname=Kupag&date=1961-01-02&cid=3&aid=1&courseName=JJFD9
+
+Cwiczenie 9:
+http://localhost:8080/hibernate-demo/student?action=bornAfter&date=1961-01-01
+
