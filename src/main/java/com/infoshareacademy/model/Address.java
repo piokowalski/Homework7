@@ -30,7 +30,7 @@ public class Address {
     @NotNull
     private String city;
 
-    @OneToMany(mappedBy = "address", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
     private List<Student> students;
 
     public Address() {
