@@ -21,7 +21,6 @@ public class AddressServlet extends HttpServlet {
 
     @Inject
     private AddressDao addressDao;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         throws IOException {
