@@ -13,19 +13,19 @@ public class AddressDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Long save(Address c) {
-        entityManager.persist(c);
-        return c.getId();
+    public Long save(Address s) {
+        entityManager.persist(s);
+        return s.getId();
     }
 
-    public Address update(Address c) {
-        return entityManager.merge(c);
+    public Address update(Address s) {
+        return entityManager.merge(s);
     }
 
     public void delete(Long id) {
-        final Address c = entityManager.find(Address.class, id);
-        if (c != null) {
-            entityManager.remove(c);
+        final Address s = entityManager.find(Address.class, id);
+        if (s != null) {
+            entityManager.remove(s);
         }
     }
 
@@ -34,7 +34,7 @@ public class AddressDao {
     }
 
     public List<Address> findAll() {
-        final Query query = entityManager.createQuery("SELECT c FROM Address c");
+        final Query query = entityManager.createQuery("SELECT s FROM Address s");
 
         return query.getResultList();
     }

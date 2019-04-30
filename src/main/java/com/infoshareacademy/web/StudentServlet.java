@@ -1,14 +1,8 @@
 package com.infoshareacademy.web;
 
-import com.infoshareacademy.dao.AddressDao;
-import com.infoshareacademy.dao.ComputerDao;
-import com.infoshareacademy.dao.CourseDao;
-import com.infoshareacademy.dao.StudentDao;
-import com.infoshareacademy.model.Address;
-import com.infoshareacademy.model.Computer;
-import com.infoshareacademy.model.Course;
-import com.infoshareacademy.model.CourseSummary;
-import com.infoshareacademy.model.Student;
+import com.infoshareacademy.dao.*;
+import com.infoshareacademy.model.*;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -25,8 +19,8 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@WebServlet(urlPatterns = "/student")
 @Transactional
+@WebServlet(urlPatterns = "/student")
 public class StudentServlet extends HttpServlet {
 
     private Logger LOG = LoggerFactory.getLogger(StudentServlet.class);
@@ -42,6 +36,9 @@ public class StudentServlet extends HttpServlet {
 
     @Inject
     private CourseDao courseDao;
+
+    @Inject
+    private TeacherDao teacherDao;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -67,27 +64,39 @@ public class StudentServlet extends HttpServlet {
         addressDao.save(a2);
 
         // Computers
-        Computer c1 = new Computer("Xiaomi Lepsze", "Windows XP SP2");
-        computerDao.save(c1);
-
-        Computer c2 = new Computer("Zenbook", "Fedora");
+        Computer c1 = new Computer("Xiaomi Lepsze",
+            "Windows XP SP2");
+       computerDao.save(c1);
+        Computer c2 = new Computer("Zenbook",
+            "Fedora");
         computerDao.save(c2);
+
+        // Teachers
+        Teacher teacher1 = new Teacher("36122404556","Endmund",
+                "Kaput",
+                Arrays.asList(course1, course2));
+        teacherDao.save(teacher1);
+
+        Teacher teacher2 = new Teacher("80100314765","Tomasz",
+                "Poludniak",
+                Arrays.asList(course2));
+        teacherDao.save(teacher2);
 
         // Students
         Student s1 = new Student("Michal",
-            "Graczyk",
-            LocalDate.of(1980, 11, 12),
-            c1,
-            a1,
-            Arrays.asList(course1, course2, course3));
+                "Graczyk",
+                LocalDate.of(1980, 11, 12),
+                c1,
+                a1,
+                Arrays.asList(course1, course2, course3));
         studentDao.save(s1);
 
         Student s2 = new Student("Marek",
-            "Malinovsky",
-            LocalDate.of(1960, 5, 13),
-            c2,
-            a1,
-            Arrays.asList(course2, course3));
+                "Malinovsky",
+                LocalDate.of(1960, 5, 13),
+                c2,
+                a1,
+                Arrays.asList(course2, course3));
         studentDao.save(s2);
 
         LOG.info("System time zone is: {}", ZoneId.systemDefault());
@@ -112,12 +121,20 @@ public class StudentServlet extends HttpServlet {
             deleteStudent(req, resp);
         } else if (action.equals("update")) {
             updateStudent(req, resp);
-        } else if (action.equals("bornAfter")) {
-            findAllBornAfter(req, resp);
-        } else if (action.equals("summary")) {
-            summary(req, resp);
+        } else if (action.equals("findByDate")) {
+            findByDate(req, resp);
         } else {
             resp.getWriter().write("Unknown action.");
+        }
+    }
+
+    private void findByDate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        LocalDate date = LocalDate.parse(req.getParameter("date"));
+
+        List<Student> result = studentDao.findAllBornAfter(date);
+
+        for (Student p : result) {
+            resp.getWriter().write(p.toString() + "\n");
         }
     }
 
@@ -134,22 +151,23 @@ public class StudentServlet extends HttpServlet {
             existingStudent.setSurname(req.getParameter("surname"));
 
             String dateStr = req.getParameter("date");
-            LocalDate date = LocalDate.parse(dateStr);
+            LocalDate date = LocalDate.parse(dateStr); // YYYY-MM-DD
             existingStudent.setDateOfBirth(date);
 
-            String cidStr = req.getParameter("cid"); // computer id
-            Long cid = Long.valueOf(cidStr);
-            Computer computer = computerDao.findById(cid); // != null
-            existingStudent.setComputer(computer);
-
-            String aidStr = req.getParameter("aid"); // address od
-            Long aid = Long.valueOf(aidStr);
-            Address address = addressDao.findById(aid);
+            String addressIdStr = req.getParameter("aid");
+            Long addressId = Long.valueOf(addressIdStr);
+            Address address = addressDao.findById(addressId);
             existingStudent.setAddress(address);
 
-            String courseName = req.getParameter("courseName");
-            Course course = courseDao.findByName(courseName);
-            existingStudent.getCourses().add(course);
+            String courseIdStr = req.getParameter("courseid");
+            Long courseId = Long.valueOf(courseIdStr);
+            Course course = courseDao.findById(courseId);
+
+            if (existingStudent.getCourses() != null) {
+                existingStudent.getCourses().add(course);
+            } else {
+                existingStudent.setCourses(Arrays.asList(course));
+            }
 
             studentDao.update(existingStudent);
             LOG.info("Student object updated: {}", existingStudent);
@@ -165,20 +183,25 @@ public class StudentServlet extends HttpServlet {
         final Student p = new Student();
         p.setName(req.getParameter("name"));
         p.setSurname(req.getParameter("surname"));
-        p.setDateOfBirth(LocalDate.parse(req.getParameter("date")));
 
-        String cidStr = req.getParameter("cid"); // computer id
-        Long cid = Long.valueOf(cidStr);
-        Computer computer = computerDao.findById(cid); // != null
-        p.setComputer(computer);
+        String dateStr = req.getParameter("date");
+        LocalDate date = LocalDate.parse(dateStr); // YYYY-MM-DD
+        p.setDateOfBirth(date);
 
-        String aidStr = req.getParameter("aid"); // address od
-        Long aid = Long.valueOf(aidStr);
-        Address address = addressDao.findById(aid);
+        String computerIdStr = req.getParameter("cid");
+        Long computerId = Long.valueOf(computerIdStr);
+        Computer c = computerDao.findById(computerId);
+        p.setComputer(c);
+
+        String addressIdStr = req.getParameter("aid");
+        Long addressId = Long.valueOf(addressIdStr);
+        Address address = addressDao.findById(addressId);
         p.setAddress(address);
 
-        String courseName = req.getParameter("courseName");
-        Course course = courseDao.findByName(courseName);
+        String courseIdStr = req.getParameter("courseid");
+        Long courseId = Long.valueOf(courseIdStr);
+        Course course = courseDao.findById(courseId);
+
         p.setCourses(Arrays.asList(course));
 
         studentDao.save(p);
@@ -198,30 +221,10 @@ public class StudentServlet extends HttpServlet {
         findAll(req, resp);
     }
 
-    private void findAllBornAfter(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String date = req.getParameter("date");
-        LocalDate localDate = LocalDate.parse(date);
-
-        final List<Student> result = studentDao.findBornAfter(localDate);
-
-        LOG.info("Found {} objects", result.size());
-        for (Student p : result) {
-            resp.getWriter().write(p.toString() + "\n");
-        }
-    }
-
     private void findAll(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         final List<Student> result = studentDao.findAll();
         LOG.info("Found {} objects", result.size());
         for (Student p : result) {
-            resp.getWriter().write(p.toString() + "\n");
-        }
-    }
-
-    private void summary(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        final List<CourseSummary> result = courseDao.getCoursesSummary();
-        LOG.info("Found {} objects", result.size());
-        for (CourseSummary p : result) {
             resp.getWriter().write(p.toString() + "\n");
         }
     }

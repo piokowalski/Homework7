@@ -2,6 +2,7 @@ package com.infoshareacademy.web;
 
 import com.infoshareacademy.dao.CourseDao;
 import com.infoshareacademy.model.Course;
+import com.infoshareacademy.model.CourseSummary;
 import java.io.IOException;
 import java.util.List;
 import javax.inject.Inject;
@@ -39,16 +40,42 @@ public class CourseServlet extends HttpServlet {
             addCourse(req, resp);
         } else if (action.equals("delete")) {
             deleteCourse(req, resp);
+        } else if (action.equals("update")) {
+            updateCourse(req, resp);
+        } else if (action.equals("summary")) {
+            List<CourseSummary> courses = courseDao.getCoursesDetails();
+            for (CourseSummary p : courses) {
+                resp.getWriter().write(p.toString() + "\n");
+            }
         } else {
             resp.getWriter().write("Unknown action.");
         }
+    }
+
+    private void updateCourse(HttpServletRequest req, HttpServletResponse resp)
+        throws IOException {
+        final Long id = Long.parseLong(req.getParameter("id"));
+        LOG.info("Updating Course with id = {}", id);
+
+        final Course existingCourse = courseDao.findById(id);
+        if (existingCourse == null) {
+            LOG.info("No Course found for id = {}, nothing to be updated", id);
+        } else {
+            existingCourse.setName(req.getParameter("name"));
+
+            courseDao.update(existingCourse);
+            LOG.info("Course object updated: {}", existingCourse);
+        }
+
+        // Return all persisted objects
+        findAll(req, resp);
     }
 
     private void addCourse(HttpServletRequest req, HttpServletResponse resp)
         throws IOException {
 
         final Course p = new Course();
-        p.setName(req.getParameter("name"));
+        p.setName(req.getParameter("course"));
 
         courseDao.save(p);
         LOG.info("Saved a new Course object: {}", p);
@@ -58,10 +85,10 @@ public class CourseServlet extends HttpServlet {
     }
 
     private void deleteCourse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        final String name = req.getParameter("name");
-        LOG.info("Removing Course with name = {}", name);
+        final Long id = Long.parseLong(req.getParameter("id"));
+        LOG.info("Removing Course with id = {}", id);
 
-        courseDao.delete(name);
+        courseDao.delete(id);
 
         // Return all persisted objects
         findAll(req, resp);
@@ -75,4 +102,3 @@ public class CourseServlet extends HttpServlet {
         }
     }
 }
-

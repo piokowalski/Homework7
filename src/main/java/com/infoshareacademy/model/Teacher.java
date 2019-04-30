@@ -1,22 +1,25 @@
 package com.infoshareacademy.model;
 
-import com.sun.tools.javac.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "TEACHERS")
-
 public class Teacher {
 
     @Id
-    @Column(name = "pesel", length = 15, unique = true)
+    @NotNull
+    @Column(name = "pesel", length = 11, unique=true)
     private String pesel;
 
-    @Column(name = "surname")
-    private String surname;
-
     @Column(name = "name")
+    @NotNull
+    private String name;
+
+    @Column(name = "surname")
+    @NotNull
     private String surname;
 
     @ManyToMany
@@ -27,12 +30,13 @@ public class Teacher {
     private List<Course> courses;
 
     public Teacher() {
+
     }
 
-    public Teacher(String pesel, String surname, String surname1, List<Course> courses) {
+    public Teacher(String pesel, String name, String surname, List<Course> courses) {
         this.pesel = pesel;
+        this.name = name;
         this.surname = surname;
-        this.surname = surname1;
         this.courses = courses;
     }
 
@@ -42,6 +46,14 @@ public class Teacher {
 
     public void setPesel(String pesel) {
         this.pesel = pesel;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSurname() {
@@ -64,7 +76,7 @@ public class Teacher {
     public String toString() {
         return "Teacher{" +
                 "pesel='" + pesel + '\'' +
-                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", courses=" + courses +
                 '}';

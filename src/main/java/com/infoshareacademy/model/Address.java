@@ -1,6 +1,6 @@
 package com.infoshareacademy.model;
 
-import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import javax.persistence.Column;
@@ -18,15 +18,15 @@ import javax.validation.constraints.NotNull;
 public class Address {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // autoincrement w MySQL
     private Long id;
 
-    @Column(name = "street", length = 64)
+    @Column(name = "street")
     @NotNull
     private String street;
 
-    @Column(name = "city", length = 64)
+    @Column(name = "city")
     @NotNull
     private String city;
 
@@ -75,14 +75,17 @@ public class Address {
 
     @Override
     public String toString() {
+        List<Long> studentsIds = students
+            .stream()
+            //.map(Student::getId)
+            .map(s -> s.getId())
+            .collect(toList());
+
         final StringBuffer sb = new StringBuffer("Address{");
         sb.append("id=").append(id);
         sb.append(", street='").append(street).append('\'');
         sb.append(", city='").append(city).append('\'');
-        sb.append(", students=").append(students
-            .stream()
-            .map(s -> s.getId().toString())
-            .collect(joining(", ")));
+        sb.append(", students=").append(studentsIds);
         sb.append('}');
         return sb.toString();
     }

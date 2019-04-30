@@ -1,40 +1,42 @@
 package com.infoshareacademy.dao;
 
+
 import com.infoshareacademy.model.Teacher;
-import com.sun.tools.javac.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.List;
 
 @Stateless
 public class TeacherDao {
 
     @PersistenceContext
     private EntityManager entityManager;
-    public String save (Teacher teacher) {
-        entityManager.persist(teacher);
-        return teacher.getPesel();
+
+    public String save(Teacher s) {
+        entityManager.persist(s);
+        return s.getPesel();
     }
 
-    public Teacher update (Teacher teacher) {
-        return entityManager.merge(teacher);
+    public Teacher update(Teacher s) {
+        return entityManager.merge(s);
     }
 
-    public void delete (String pesel) {
-        final Teacher t = entityManager.find(Teacher.class, pesel);
-        if (t != null) {
-            entityManager.remove(t);
+    public void delete(String pesel) {
+        final Teacher s = entityManager.find(Teacher.class, pesel);
+        if (s != null) {
+            entityManager.remove(s);
         }
     }
 
-    public Teacher findByPesel (String pesel) {
+    public Teacher findById(String pesel) {
         return entityManager.find(Teacher.class, pesel);
     }
 
     public List<Teacher> findAll() {
-        final Query query = entityManager.createQuery("SELECT t FROM Teacher t");
+        final Query query = entityManager.createQuery("SELECT s FROM Teacher s");
         return query.getResultList();
     }
 }

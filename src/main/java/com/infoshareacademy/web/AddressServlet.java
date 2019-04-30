@@ -21,6 +21,7 @@ public class AddressServlet extends HttpServlet {
 
     @Inject
     private AddressDao addressDao;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
         throws IOException {
@@ -54,8 +55,8 @@ public class AddressServlet extends HttpServlet {
         if (existingAddress == null) {
             LOG.info("No Address found for id = {}, nothing to be updated", id);
         } else {
-            existingAddress.setStreet(req.getParameter("street"));
             existingAddress.setCity(req.getParameter("city"));
+            existingAddress.setStreet(req.getParameter("street"));
 
             addressDao.update(existingAddress);
             LOG.info("Address object updated: {}", existingAddress);
@@ -97,4 +98,3 @@ public class AddressServlet extends HttpServlet {
         }
     }
 }
-

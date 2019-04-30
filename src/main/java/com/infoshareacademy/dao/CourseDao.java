@@ -15,24 +15,24 @@ public class CourseDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public String save(Course s) {
+    public Long save(Course s) {
         entityManager.persist(s);
-        return s.getName();
+        return s.getId();
     }
 
     public Course update(Course s) {
         return entityManager.merge(s);
     }
 
-    public void delete(String name) {
-        final Course s = entityManager.find(Course.class, name);
+    public void delete(Long id) {
+        final Course s = entityManager.find(Course.class, id);
         if (s != null) {
             entityManager.remove(s);
         }
     }
 
-    public Course findByName(String name) {
-        return entityManager.find(Course.class, name);
+    public Course findById(Long id) {
+        return entityManager.find(Course.class, id);
     }
 
     public List<Course> findAll() {
@@ -41,16 +41,16 @@ public class CourseDao {
         return query.getResultList();
     }
 
-    public List<CourseSummary> getCoursesSummary() {
-        return findAll().stream()
+    public List<CourseSummary> getCoursesDetails() {
+        List<Course> courses = findAll();
+        return courses.stream()
             .map(c -> {
-                String courseName = c.getName();
-
+                String name = c.getName();
                 List<String> attendees = c.getStudents().stream()
                     .map(s -> s.getName() + " " + s.getSurname())
                     .collect(Collectors.toList());
 
-                return new CourseSummary(courseName, attendees);
+                return new CourseSummary(name, attendees);
             })
             .collect(Collectors.toList());
     }

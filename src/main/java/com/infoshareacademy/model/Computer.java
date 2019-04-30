@@ -13,15 +13,15 @@ import javax.validation.constraints.NotNull;
 public class Computer {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
     @NotNull
     private String name;
 
-    @Column(name = "os")
+    @Column(name = "operating_system")
     @NotNull
     private String operatingSystem;
 

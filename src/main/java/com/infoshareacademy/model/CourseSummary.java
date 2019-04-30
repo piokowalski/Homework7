@@ -4,21 +4,21 @@ import java.util.List;
 
 public class CourseSummary {
 
-    private String courseName;
+    private String name;
 
     private List<String> attendees;
 
-    public CourseSummary(String courseName, List<String> attendees) {
-        this.courseName = courseName;
+    public CourseSummary(String name, List<String> attendees) {
+        this.name = name;
         this.attendees = attendees;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getName() {
+        return name;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<String> getAttendees() {
@@ -32,7 +32,7 @@ public class CourseSummary {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("CourseSummary{");
-        sb.append("courseName='").append(courseName).append('\'');
+        sb.append("name='").append(name).append('\'');
         sb.append(", attendees=").append(attendees);
         sb.append('}');
         return sb.toString();
