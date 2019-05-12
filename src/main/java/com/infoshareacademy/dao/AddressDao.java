@@ -38,5 +38,4 @@ public class AddressDao {
 
         return query.getResultList();
     }
-
 }
