@@ -48,4 +48,11 @@ public class StudentDao {
         return query.getResultList();
     }
 
+    public List<Student> sortByName(String name) {
+        final Query q = entityManager.createQuery("SELECT s FROM Student s WHERE s.name = :name");
+
+        q.setParameter("name", name);
+        return q.getResultList();
+    }
+
 }
