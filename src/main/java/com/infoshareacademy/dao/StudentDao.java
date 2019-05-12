@@ -54,5 +54,4 @@ public class StudentDao {
         q.setParameter("name", name);
         return q.getResultList();
     }
-
 }
